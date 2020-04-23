@@ -14,7 +14,7 @@ export const Dashboard = () => {
   );
 };
 
-const DashboardHolder = styled.View`
+const DashboardHolder = styled.SafeAreaView`
   display: flex;
 `;
 const DeckPrev = styled.View`

@@ -1,28 +1,19 @@
-import React from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import * as React from "react";
 import styled from "styled-components";
-import { Dashboard } from "./Components/Dashboard";
-import { NewDeck } from "./Components/NewDeck";
+import { Dashboard } from "./Screens/Dashboard";
+import { NewDeck } from "./Screens/NewDeck";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View, Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 export default function App() {
-  const Tabs = createBottomTabNavigator({
-    Dashboard: {
-      screen: Dashboard,
-    },
-    NewDeck: {
-      screen: NewDeck,
-    },
-  });
-
   return (
     <NavigationContainer>
-      <Holder>
-        <Dashboard />
-        <Tabs />
-      </Holder>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={Dashboard} icon />
+        <Tab.Screen name="Add Deck" component={NewDeck} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

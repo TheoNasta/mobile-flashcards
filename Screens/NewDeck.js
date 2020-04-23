@@ -10,6 +10,6 @@ export const NewDeck = () => {
   );
 };
 
-const DashboardHolder = styled.View`
+const AddDeck = styled.SafeAreaView`
   display: flex;
 `;
