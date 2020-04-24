@@ -1,26 +1,71 @@
-import * as React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Dashboard } from "./Screens/Dashboard";
 import { NewDeck } from "./Screens/NewDeck";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, Text } from "react-native";
-
+import { View, Text, AsyncStorage } from "react-native";
+import { DeckNavigator } from "./Navigators/DeckNavigators";
+import { Provider } from "react-redux";
+import { store } from "./Store";
+import { DecksThunks } from "./Store/thunks/decks";
+import { Notifications } from "react-native-notifications";
+import { DateTime } from "luxon";
 const Tab = createBottomTabNavigator();
-export default function App() {
+export function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(DecksThunks.loadDecks());
+    Notifications.registerRemoteNotifications();
+    Notifications.isRegisteredForRemoteNotifications().then(
+      registerStudyNotification
+    );
+  }, []);
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={Dashboard} icon />
-        <Tab.Screen name="Add Deck" component={NewDeck} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={DeckNavigator} />
+      <Tab.Screen name="Add Deck" component={NewDeck} />
+    </Tab.Navigator>
   );
 }
 
-const Holder = styled.SafeAreaView`
-  flex: 1;
-  background-color: #f6f3f0;
-  align-items: center;
-  justify-content: center;
-`;
+async function registerStudyNotification() {
+  const quizRegisteredForToday = await AsyncStorage.getItem(
+    "@store:quizNotification" + DateTime.local().toFormat("yyyyooo")
+  );
+  if (quizRegisteredForToday != "registered") {
+    try {
+      await AsyncStorage.setItem(
+        "@store:quizNotification" + DateTime.local().toFormat("yyyyooo"),
+        "registered"
+      );
+    } catch (error) {
+      console.error(error);
+    }
+    Notifications.postLocalNotification(
+      {
+        fireDate: parseInt(
+          DateTime.local().set({ hour: 17, minute: 0, second: 0 }).toFormat("x")
+        ),
+        body: "Take the quiz today to see your status",
+        title: "Time to study!",
+        silent: false,
+        userInfo: {},
+      },
+      parseInt(DateTime.local().toFormat("yyyyooo"))
+    );
+  }
+}
+
+export function Root() {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <App />
+      </NavigationContainer>
+    </Provider>
+  );
+}

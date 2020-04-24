@@ -13,6 +13,7 @@
 #import <UMCore/UMModuleRegistry.h>
 #import <UMReactNativeAdapter/UMNativeModulesProxy.h>
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
+#import "RNNotifications.h"
 
 @interface AppDelegate ()
 
@@ -26,6 +27,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [RNNotifications startMonitorNotifications]; // -> Add this line
   self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
   self.launchOptions = launchOptions;
 
@@ -63,6 +65,12 @@
   // You can inject any extra modules that you would like here, more information at:
   // https://facebook.github.io/react-native/docs/native-modules-ios.html#dependency-injection
   return extraModules;
+}
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [RNNotifications didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  [RNNotifications didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {

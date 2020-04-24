@@ -1,0 +1,21 @@
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import styled from "styled-components";
+import { Heading } from "../Components/Heading";
+import {
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
+
+export const QuizResults = ({ navigation, route }) => {
+  return (
+    <QuestionWrapper>
+      <Heading>Title of the qustion here??</Heading>
+      <Text>6 correct / 7 incorrect</Text>
+    </QuestionWrapper>
+  );
+};
+
+const QuizResults = styled.SafeAreaView`
+  display: flex;
+`;
