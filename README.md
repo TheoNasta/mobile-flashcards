@@ -4,8 +4,8 @@ This project was bootstrapped with Create React Native App
 
 To get started developing right away:
 
-install all project dependencies with yarn install
-start the development server with yarn ios start
+install all project dependencies with `yarn install`
+start the development server with `yarn ios start`
 
 The project is tested and works with the iOS simulator.
 

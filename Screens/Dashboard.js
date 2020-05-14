@@ -40,7 +40,7 @@ export const Dashboard = ({ navigation, route }) => {
           );
         })
       ) : (
-        <Span>You have no decks. Create one frmo the decks tab.</Span>
+        <Span>You have no decks. Create one from the 'Add Deck' tab.</Span>
       )}
     </ScrollView>
   );
