@@ -1,13 +1,12 @@
 # mobile-flashcards
 
 This project was bootstrapped with Create React Native App
+The project is tested and works with the iOS simulator.
 
 To get started developing right away:
 
 install all project dependencies with `yarn install`
-start the development server with `yarn ios start`
-
-The project is tested and works with the iOS simulator.
+start the development server with `yarn ios start` then install Pods by going to the ios folder `cd ios` and install pods with `pod install`.
 
 ## What You're Getting
 
