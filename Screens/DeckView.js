@@ -6,7 +6,8 @@ import { Heading } from "../Components/Heading";
 import { DecksActions } from "../Store/actions/decks";
 import { DecksThunks } from "../Store/thunks/decks";
 import { ScrollView } from "react-native-gesture-handler";
-import { Notifications } from "expo";
+import { Notifications } from "react-native-notifications";
+import { DateTime } from "luxon";
 
 export const DeckView = ({ navigation, route }) => {
   const deck = useSelector((state) => state.decks.at[route.params.deckId]);
@@ -26,16 +27,18 @@ export const DeckView = ({ navigation, route }) => {
           ? "You have no cards"
           : `${deck.cards.length} cards`}
       </Span>
-      <StyledTouchableHighlight
-        onPress={() => {
-          removeStudyNotifications();
-          navigation.navigate("QuizQuestion", {
-            deckId: deck.id,
-          });
-        }}
-      >
-        <ButtonText> Start Quiz </ButtonText>
-      </StyledTouchableHighlight>
+      {deck.cards.length != 0 && (
+        <StyledTouchableHighlight
+          onPress={() => {
+            removeStudyNotifications();
+            navigation.navigate("QuizQuestion", {
+              deckId: deck.id,
+            });
+          }}
+        >
+          <ButtonText> Start Quiz </ButtonText>
+        </StyledTouchableHighlight>
+      )}
       <StyledTouchableHighlight
         onPress={() => {
           navigation.navigate("AddQuestion", { deckId: deck.id });
