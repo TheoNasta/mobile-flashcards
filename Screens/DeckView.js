@@ -15,9 +15,11 @@ export const DeckView = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: deck.title,
+      title: deck?.title,
     });
   }, []);
+
+  if (!deck) return <></>;
 
   return (
     <ScrollView>

@@ -12,6 +12,7 @@ import { store } from "./Store";
 import { DecksThunks } from "./Store/thunks/decks";
 import { Notifications } from "react-native-notifications";
 import { DateTime } from "luxon";
+import { setTopLevelNavigator } from "./Navigators/navigatorService";
 const Tab = createBottomTabNavigator();
 export function App() {
   const dispatch = useDispatch();
@@ -63,7 +64,11 @@ async function registerStudyNotification() {
 export function Root() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer
+        ref={(navigatorRef) => {
+          setTopLevelNavigator(navigatorRef);
+        }}
+      >
         <App />
       </NavigationContainer>
     </Provider>

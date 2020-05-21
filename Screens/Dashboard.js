@@ -19,6 +19,7 @@ export const Dashboard = ({ navigation, route }) => {
       {decks.all.length > 0 ? (
         decks.all.map((dId) => {
           const deck = decks.at[dId];
+          if (!deck) return null;
           return (
             <TouchableOpacity
               key={dId}

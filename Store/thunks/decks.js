@@ -1,13 +1,19 @@
 import { AsyncStorage } from "react-native";
 import uuid from "random-uuid-v4";
 import { DecksActions } from "../actions/decks";
+import { CommonActions } from "@react-navigation/native";
+import { navigate } from "../../Navigators/navigatorService";
 
-function loadDecks() {
+function loadDecks(newDeckId) {
   return async function (dispatch, getState) {
     try {
       const decks = JSON.parse(await AsyncStorage.getItem("@store:decks"));
 
       dispatch(DecksActions.storeDecks(decks ? decks : []));
+
+      if (newDeckId) {
+        navigate("Deck", { deckId: newDeckId });
+      }
     } catch (error) {
       console.error(error);
     }
@@ -30,7 +36,7 @@ export const DecksThunks = {
           "@store:decks",
           JSON.stringify([...storedDecks])
         );
-        dispatch(loadDecks(dispatch, getState));
+        dispatch(loadDecks());
       } catch (error) {
         console.error(error);
       }
@@ -50,16 +56,16 @@ export const DecksThunks = {
           "@store:decks",
           JSON.stringify([...storedDecks])
         );
-        dispatch(loadDecks(dispatch, getState));
+        dispatch(loadDecks());
       } catch (error) {
         console.error(error);
       }
     };
   },
-  addDeck: ({ title }) => {
+  addDeck: ({ title, id }) => {
     return async function (dispatch, getState) {
       const newDeck = {
-        id: uuid(),
+        id: id || uuid(),
         title: title,
         cards: [],
       };
@@ -73,7 +79,7 @@ export const DecksThunks = {
           "@store:decks",
           JSON.stringify([...storedDecks, newDeck])
         );
-        dispatch(loadDecks(dispatch, getState));
+        dispatch(loadDecks(newDeck.id));
       } catch (error) {
         console.error(error);
       }

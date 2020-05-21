@@ -97,10 +97,20 @@ export const QuizQuestion = ({ navigation, route }) => {
         How was your guess?
       </Text>
       <ButtonsHolder>
-        <CorrectBtn onPress={() => log("correct")}>
+        <CorrectBtn
+          onPress={() => {
+            log("correct");
+            setShowAnswer(false);
+          }}
+        >
           <ButtonText> Correct </ButtonText>
         </CorrectBtn>
-        <IncorrectBtn onPress={() => log("incorrect")}>
+        <IncorrectBtn
+          onPress={() => {
+            log("incorrect");
+            setShowAnswer(false);
+          }}
+        >
           <ButtonText> Incorrect </ButtonText>
         </IncorrectBtn>
       </ButtonsHolder>

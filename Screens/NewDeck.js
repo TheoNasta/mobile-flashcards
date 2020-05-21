@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import { useDispatch } from "react-redux";
+import uuid from "random-uuid-v4";
 import styled from "styled-components";
 import { Heading } from "../Components/Heading";
 import { DecksThunks } from "../Store/thunks/decks";
@@ -28,9 +29,14 @@ export const NewDeck = ({ navigation, route }) => {
       </View>
       <StyledTouchableHighlight
         onPress={() => {
-          dispatch(DecksThunks.addDeck({ title: deckName }));
+          const deckId = uuid();
+          dispatch(
+            DecksThunks.addDeck({
+              title: deckName,
+              id: deckId,
+            })
+          );
           setDeckName("");
-          navigation.navigate("Home");
         }}
       >
         <ButtonText>Save Deck </ButtonText>
